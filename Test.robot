@@ -6,4 +6,5 @@ Open Sauce Demo Site
     Open Browser  https://www.saucedemo.com/  chrome
     Page Should Contain    Swag Labs
     Capture Page Screenshot
+    Sleep  5
     Close Browser
