@@ -2,7 +2,7 @@
 Library  SeleniumLibrary
 
 *** Variables ***
-${LOGIN URL}  https://www.saucedemo.com/
+${LOGIN_URL}  https://www.saucedemo.com/
 ${BROWSER}    chrome
 
 *** Test Cases ***
@@ -15,7 +15,7 @@ Open Sauce Demo Site
 
 *** Keywords ***
 Open Browser To Login Page
-    Open Browser    ${LOGIN URL}    ${BROWSER}
+    Open Browser    ${LOGIN_URL}    ${BROWSER}
     Page Should Contain    Swag Labs
 
 Input Username
