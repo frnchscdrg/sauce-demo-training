@@ -4,12 +4,14 @@ Library  SeleniumLibrary
 *** Variables ***
 ${LOGIN_URL}  https://www.saucedemo.com/
 ${BROWSER}    chrome
+@{USERNAME}    standard_user    locked_out_user    problem_user
+${PASSWORD}    secret_sauce
 
 *** Test Cases ***
 Open Sauce Demo Site
     Open Browser To Login Page
-    Input Username  standard_user
-    Input Password    secret_sauce
+    Input Username    ${USERNAME[0]}
+    Input Password
     Submit Credentials
     Close Browser
 
@@ -20,12 +22,14 @@ Open Browser To Login Page
 
 Input Username
     [Arguments]    ${username}
-    Input Text    id=user-name    ${username}
+    Input Text    id=user-name    ${USERNAME}
+    Capture Page Screenshot
 
 Input Password
-    [Arguments]    ${password}
-    Input Text    id=password    ${password}
+    Input Text    id=password    ${PASSWORD}
     Capture Page Screenshot
 
 Submit Credentials
     Click Button    id=login-button
+    Page Should Contain    Products
+    Capture Page Screenshot
