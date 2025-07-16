@@ -2,34 +2,50 @@
 Library  SeleniumLibrary
 
 *** Variables ***
-${LOGIN_URL}  https://www.saucedemo.com/
-${BROWSER}    chrome
-@{USERNAME}    standard_user    locked_out_user    problem_user
-${PASSWORD}    secret_sauce
+${login_url}  https://www.saucedemo.com/
+${browser}    chrome
+${username}    standard_user
+${valid password}    secret_sauce
+${invalid password}  abc123_
 
 *** Test Cases ***
-Open Sauce Demo Site
+Valid Login
     Open Browser To Login Page
-    Input Username    ${USERNAME[0]}
-    Input Password
+    Input Username    ${username}
+    Input Password    ${valid password}
     Submit Credentials
+    Assert Successful Login
+    Close Browser
+    
+Invalid Login
+    Open Browser To Login Page
+    Input Username    ${username}
+    Input Password    ${invalid password}
+    Submit Credentials
+    Assert Failed Login
     Close Browser
 
 *** Keywords ***
 Open Browser To Login Page
-    Open Browser    ${LOGIN_URL}    ${BROWSER}
+    Open Browser    ${login_url}    ${browser}
     Page Should Contain    Swag Labs
 
 Input Username
     [Arguments]    ${username}
-    Input Text    id=user-name    ${USERNAME}
+    Input Text    id=user-name    ${username}
     Capture Page Screenshot
 
 Input Password
-    Input Text    id=password    ${PASSWORD}
+    [Arguments]    ${valid password}
+    Input Text    id=password    ${valid password}
     Capture Page Screenshot
 
 Submit Credentials
     Click Button    id=login-button
-    Page Should Contain    Products
     Capture Page Screenshot
+
+Assert Successful Login
+    Page Should Contain    Products
+
+Assert Failed Login
+    Page Should Contain Element    css=.error-message-container.error
